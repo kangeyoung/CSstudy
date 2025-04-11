@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodAdvisor</title>
+</head>
+<style>
+    #header {
+        display: flex;
+        gap: 10px;
+    }
+
+    .list {
+        display: inline-block;        
+        width: 950px;        
+    }
+
+    .list a {       
+        text-decoration: none;
+        color: black;
+        border: 2px dotted;
+        font-size: 25px;
+        
+
+    }
+
+    a:hover {
+        background-color: rgb(202, 202, 202);
+    }
+
+    tr,
+    td {
+        border: 1px solid;
+        text-align: center;
+    }
+
+    #root {
+        color: gray;
+        font-size: 15px;
+    }
+</style>
+
+<body>
+    <div id="header">
+        <img src="./img/맛집 아이콘.png" width=5%>
+        <h2>FoodAdvisor</h2>
+    </div>
+    <hr style="border: 2px dashed">
+    <div class="list">
+        <span><a href=""><b>지역</b></a>
+            <span><a href=""><b>음식 종류</b></a>
+                <span><a href=""><b>즐겨찾기</b></a>
+    </div>
+    <br>
+    <br>
+    <div id="root"> 지역별 > 수원 </div>
+    <table>
+        <tr>            
+            <td>
+                <!-- 1. 약도 노드 -->
+                <div id="daumRoughmapContainer1744169475122" class="root_daum_roughmap root_daum_roughmap_landing">
+                </div>
+
+                <!-- 2. 설치 스크립트 -->
+                <script charset="UTF-8" class="daum_roughmap_loader_script"
+                    src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                <!-- 3. 실행 스크립트 -->
+                <script charset="UTF-8">
+                    new daum.roughmap.Lander({
+                        "timestamp": "1744169475122",
+                        "key": "2nnhn",
+                        "mapWidth": "300",
+                        "mapHeight": "200"
+                    }).render();
+                </script>
+                <span><b>가보정</b></span>
+            </td>
+            <td>
+                <!-- 1. 약도 노드 -->
+                <div id="daumRoughmapContainer1744169877536" class="root_daum_roughmap root_daum_roughmap_landing">
+                </div>
+
+                <!-- 2. 설치 스크립트 -->
+                <script charset="UTF-8" class="daum_roughmap_loader_script"
+                    src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                <!-- 3. 실행 스크립트 -->
+                <script charset="UTF-8">
+                    new daum.roughmap.Lander({
+                        "timestamp": "1744169877536",
+                        "key": "2nnhr",
+                        "mapWidth": "300",
+                        "mapHeight": "200"
+                    }).render();
+                </script>
+                <span><b>백리향</b></span>
+            </td>
+            <td>                
+                <!-- 1. 약도 노드 -->
+                <div id="daumRoughmapContainer1744170277009" class="root_daum_roughmap root_daum_roughmap_landing">
+                </div>
+
+                <!-- 2. 설치 스크립트 -->
+                <script charset="UTF-8" class="daum_roughmap_loader_script"
+                    src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                <!-- 3. 실행 스크립트 -->
+                <script charset="UTF-8">
+                    new daum.roughmap.Lander({
+                        "timestamp": "1744170277009",
+                        "key": "2nnht",
+                        "mapWidth": "300",
+                        "mapHeight": "200"
+                    }).render();
+                </script>
+                <span><b>엄마손뷔페</b></span>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

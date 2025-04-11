@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #order_info{
+        color:blue;
+    }
+</style>
+<body>
+    <h1>주문메뉴</h1>
+    <div id="info">        
+    </div>
+    <br>
+    메뉴선택 <input type="text" id="inputMenu">
+    수량 <input type="text" id="inputMenuQuantity">
+    <input type="button" id="btn" onclick="order()" value="주문">
+    <br>
+    주문정보 <div id="order_info">
+    <hr>
+    <table id="orderlist">
+        <tr>
+            <th>
+                <input type = checkbox id = selectall onclick = checkAll(this)>
+            </th>
+            <th>
+                메뉴
+            </th>
+            <th>
+                수량
+            </th>
+        </tr>
+    </table>
+    </div>
+    <button id="deleteBtn" onclick = del()>삭제</button>
+</body>
+<script>
+    var menu = ['자장면', '볶음밥', '탕수육'];
+    window.onload = function(){        
+        msg = document.getElementById("info");
+        for (i = 0; i<menu.length;i++){
+            str = (i+1)+'.'+menu[i]+'<br />';
+            msg.innerHTML += str;
+           
+        }
+    }
+    function order(){
+        textM = document.getElementById("inputMenu").value;
+        textN = document.getElementById("inputMenuQuantity").value;
+        if (textM == ""||textN == ""){
+            alert("주문이 비어있습니다.");
+            return;
+        }
+        console.log(textM);
+        for(i = 0; i<menu.length;i++){
+            if(menu[i] == textM){
+               if(confirm(textM+"을 "+textN+"개 주문하시겠습니까?")){
+                const table = document.getElementById("orderlist");
+                const newRow = table.insertRow();
+                const newCell0 = newRow.insertCell(0);
+                const newCell1 = newRow.insertCell(1);
+                const newCell2 = newRow.insertCell(2);
+                newCell0.innerHTML = "<input type = checkbox name = check>";
+                newCell1.innerText = textM;
+                newCell2.innerText = textN;
+               }
+                break;
+            }else if(i == menu.length-1){
+                alert("메뉴가 없습니다.");
+                return;
+            }
+        }        
+    }
+    function checkAll(e){
+        const checkboxes = document.getElementsByName("check");
+        checkboxes.forEach((checkbox)=>{
+            checkbox.checked = e.checked;
+        })
+    }
+    function del(){
+        const checked = document.getElementsByName("check");    
+        const table = document.getElementById("orderlist");    
+        for(i = 0; i<checked.length;i++){
+            if(checked[i].checked){
+               table.deleteRow(i+1); 
+               console.log(i);                    
+            }                
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* 문서 태그를 선택하여 스타일 적용 */
+    /* 선택자는 tag, id, class로 선택 가능 */
+    h2 {
+        background-color: white;
+        border: 1px solid;
+        text-align: center;
+        line-height: 50px;
+        width: 1024px;
+        height: 50px;
+        display: inline-block;
+    }
+
+    body {
+        width: 1024px;
+        margin: 0px;
+    }
+
+    div { /* tag로 선택하는 선택자 */
+        background-color: aliceblue;    
+    }
+    #head{ /* tag 속성에 지정된 id로 선택하는 선택자 */
+        background-color: palegreen;
+    }
+    ul li{
+        display: inline-block;
+        width: 100px;
+        border: 1px solid;
+        text-align: center;
+    }
+    ul li a{
+        text-decoration: none; /* 밑줄 제거 */
+        display: block;
+    }
+    ul li a:hover{
+        background-color: blue;
+    }
+</style>
+
+<body>
+    <!-- tag에는 id속성을 지정할 수 있다. 중요한 것은 id 이름은 문서 내에서 유니크 해야 함-->
+    <div id = "head"><h2>강이영 CS Study</h2></div>   
+    <div>
+        <ul>
+            <li><a href = "http://www.naver.com">Naver</a></li>
+            <li>Database</li>
+            <li>Html</li>
+        </ul>
+    </div>
+    <div id = "head">
+        <p>오늘의 메뉴</p>
+        <p>쿠팡에서 직구한 음료</p>
+    </div>
+    <h2>Human</h2>
+
+</body>
+
+</html>

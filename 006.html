@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0px 0px 0px 0px;
+        }
+
+        #join {
+            width: 1024px;
+            height: 800px;
+            background-color: blueviolet;
+            float: left;
+        }
+
+        #join_00 {
+            padding-top: 50px;
+            width: 800px;
+            height: 500px;
+            margin: auto;
+            /* 가운데 정렬 */
+            background-color: rgb(125, 26, 68);
+        }
+
+        table {
+            width: 600px;
+            height: 400px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid white;
+            margin: 0px auto;
+            /*가운데 정렬*/
+        }
+
+        th,
+        td {
+            text-align: center;
+            /*가로 가운데 정렬*/
+            vertical-align: middle;
+            /*세로 가운데 정렬*/
+        }
+
+        tr {
+            background-color: gray;
+        }
+
+        tr:hover {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="join">
+        <div id="join_00">
+
+            <form action="서버주소지정" method="post" id="inputfrm"> <!-- 서버에게 전송한 대상을 정의-->
+                <table>
+                    <tr>
+                        <td colspan="2"> <a href="kkk?name=data">회원가입</a></td>
+                    </tr>
+                    <tr>
+                        <td>아이디</td>
+                        <td><input type="text" name="uid" id="uid" class="uclass" onchange="chk()">
+                            <span>[중복검사]</span>
+                            <p id="idflag">아이디를 입력하세요.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이름</td>
+                        <td>
+                            <div class="input-group flex-nowrap">
+                                <span class="input-group-text" id="addon-wrapping">@</span>
+                                <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                                    aria-describedby="addon-wrapping" name="uname">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호</td>
+                        <td><input type="password" name="upass" id="pass"></td>
+                    </tr>
+                    <tr>
+                        <td>이메일</td>
+                        <td><input type="text" name="email"></td>
+                    </tr>
+
+                    <tr>
+                        <td>성별</td>
+                        <td>
+                            <input type="radio" name="gender" value="1">남
+                            <input type="radio" name="gender" value="2" checked>여
+                            <!-- name이 같아야 택1이 됩니다. 실제 전송은  value 값전송-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>취미</td>
+                        <td>
+                            <input type="checkbox" value="캠핑" name="hby"><span>캠핑</span></input>
+                            <input type="checkbox" value="독서" name="hby">독서</input>
+                            <input type="checkbox" value="등산" name="hby">등산</input>
+                            <input type="checkbox" value="잠자기" name="hby">잠자기</input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="button" value="전송" onclick="chk()"></td>
+                        <!-- action으로 이동하기 전에 유효성검사를 하도록 수정 -->
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    function chk() {
+        alert("전송합니다.")
+        a = confirm("진짜 할래요?")
+        id = document.getElementById('uid').value
+        msg = document.getElementById('idflag');
+        if (a) {
+            alert('입력한 id:' + id);
+            msg.innerHTML = '입력하신 id는 '+id;
+            if (id.length < 5) {
+                alert('8글자 이상입니다.')
+            }
+        } else {
+            return false;
+        }
+
+    }
+</script>

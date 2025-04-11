@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .select{
+        display: flex;
+        justify-content: center;
+    }
+    .select input[type = date]::-webkit-datetime-edit-text{
+        -webkit-appearance: none;
+        display: none;
+    }
+    .select input[type = date]::-webkit-datetime-edit-month-field{
+        -webkit-appearance: none;
+        display: none;
+    }
+    .select input[type = date]::-webkit-datetime-edit-day-field{
+        -webkit-appearance: none;
+        display: none;
+    }
+    .select input[type = date]::-webkit-datetime-edit-year-field{
+        -webkit-appearance: none;
+        display: none;
+    }
+    .select input[type = date]::-webkit-calendar-picker-indicator{
+        position: absolute; 
+        left: 3px;
+        top: 3;
+        width: 100%;
+        height: 100%;
+        /* 배경은 투명하게 */
+         
+        /* 글자도 투명하게 이 두 설정을 통해 캘린더 아이콘을 사라지게 만든다 */
+        color: transparent;         
+    }
+    .select input[type = date]{
+        position: relative;
+        width: 35px;
+        height: 25px;
+        border: 1px solid;
+        border-radius: 5px;
+        background-color: rgb(232,232,232);
+        color: black;
+    }
+    #list{
+        display: flex;        
+        align-items: center;
+        justify-content: center;
+        width: 750px;                
+        padding: 20px; 
+        border: 1px solid;
+        margin: auto;                       
+    }    
+    .buttons{
+        display: inline-block;
+        margin-left: 920px;
+    }
+    #list input[id = "all"]{
+        margin-left: 26px;
+    }
+    #list table{
+        text-align: center;
+        border-spacing: 0px;      
+    }
+    #list table th{
+        font-size: 19px;
+    }
+    #list table th, #list table td{                
+        border-bottom: 1px solid;
+        padding: 0px 25px;
+    }
+    #list table tr{
+        border: 2px solid;
+    }
+    input[type = button]{
+        background-color: white;
+        border: 1px solid;
+        border-radius: 5px;
+        height: 25px;
+    }
+    
+</style>
+<body>
+    <div class = "select">
+    <form name = "form1">
+    <table id = "table1">
+        <tr>
+            <td>
+                <span>도선택</span>
+            </td>
+            <td >
+                <select id = "main" style="width: 100px;" onchange="selS(this.value)">
+                    <option value = "none" selected></option>
+                    <option value = "GG">경기도</option>
+                    <option value = "CB">충청북도</option>
+                </select>
+            </td>
+            <td>
+                <span>시선택</span>
+            </td>
+            <td >
+                <select id = "sub" style=" width: 100px;">
+                    <option value = "none" selected></option>                    
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span>검색어</span>
+            </td>
+            <td colspan = 3>
+                <input type = "text" id = "search" style="width: 245px;">
+            </td>
+        </tr>        
+    </table>
+    </form> 
+    <form name = "form2">
+    <table>
+        <tr>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <input type = "radio" name = "searchtype" value = "all">전체검색
+            &emsp;&emsp;&emsp;
+            <input type = "radio" name = "searchtype" value = "all">호텔
+            <input type = "radio" name = "searchtype" value = "all">펜션
+            <input type = "radio" name = "searchtype" value = "all">캠핑장
+        </tr>
+        <tr>
+            <td>
+                <input type = "text" id = "startdate" placeholder="등록날짜시작">
+            </td>
+            <td>
+                <input type = "date" id = "calender1" onchange = "selstartC(this.value)" placeholder="달력">
+            </td>
+            <td>
+                <input type = "text" id = "enddate" placeholder="등록날짜종료">
+            </td>
+            <td>
+                <input type = "date" id = "calender2" onchange = "selendC(this.value)" placeholder="달력">
+            </td>
+            <td>
+                <input type = "button" id = "searchList" onclick= "search()" value="조회">
+            </td>
+        </tr>
+    </table>    
+    </form>
+    </div>
+    <div id = "list">
+    <form name = "form3">
+        <table>                    
+            <input type = "checkbox" id = "all" onclick = "checkAll(this)">전체검색<br>    
+            <tr>
+                <th>
+                    &emsp;
+                </th>                
+                <th>
+                    <span>구분</span>
+                </th>
+                <th>
+                    <span>상호명</span>
+                </th>
+                <th>
+                    <span>주소</span>
+                </th>
+                <th>
+                    <span>전화번호</span>
+                </th>
+                <th>
+                    <span>담당자</span>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type = "checkbox" name = "check">
+                </td>
+                <td>
+                    <span>호텔</span>
+                </td>
+                <td>
+                    <span>휴먼호텔</span>
+                </td>
+                <td>
+                    <span>경기도 수원시 휴먼동</span>
+                </td>
+                <td>
+                    <span>010-1111-2222</span>
+                </td>
+                <td>
+                    <span>홍길동</span>
+                </td>
+            </tr>            
+        </table>
+    </form>
+    </div>
+    <div class = "buttons">
+        <form name = "form4">
+            <input type = "button" id = "delete" onclick="del()" value="삭제">
+            <input type = "button" id = "excel" onlick = "excel()" value = "엑셀변환">   
+        </form>
+    </div>
+    <script>
+        function del(){            
+            const checked = document.getElementsByName("check");
+            var checkIndex;
+            for(i = 0; i<checked.length;i++){
+                if(checked[i].checked){
+                    console.log(i);                    
+                }                
+            }
+        }
+        function selS(e){
+            var sub = document.form1.sub;
+            sub.options.length = 1; 
+            if(e == "GG"){                               
+                sub.options[sub.options.length] = new Option("수원","sw");
+                sub.options[sub.options.length] = new Option("용인","yi");
+                sub.options[sub.options.length] = new Option("화성", "hs");
+            }else if(e == "CB"){
+                sub.options[sub.options.length] = new Option("제천","js");
+                sub.options[sub.options.length] = new Option("충주","cj");
+            }
+        }
+        function selstartC(e){
+            console.log(e);
+            text = document.getElementById("startdate");
+            console.log(text);
+            text.value = e;
+            console.log(text.innerHTML);
+        }
+        function selendC(e){
+            console.log(e);
+            text = document.getElementById("enddate");
+            console.log(text);
+            text.value = e;
+            console.log(text.innerHTML);
+        }
+        function search(){
+            starttext = document.getElementById("startdate").value;
+            endtext = document.getElementById("enddate").value;            
+            console.log(starttext);
+            console.log(endtext);
+            const regex1 = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+            // /^시작 $/끝 d = 숫자 {n} = n만큼 반복 (...) = 조합 | = or 정규식 기호가 아니면 그냥 문자
+            const regex2 = RegExp(/^\d{4}\/(0[1-9]|1[012])\/(0[1-9]|[12][0-9]|3[01])$/);
+            console.log(regex1.test(starttext));
+            if(starttext == ""){
+                alert("시작날짜 입력 필수");
+            }else if(!regex1.test(starttext)&&!regex2.test(starttext)){
+                alert("시작날짜 형식 틀림")
+            }else if(!regex1.test(endtext)&&!regex2.test(endtext)){
+                alert("종료날짜 형식 틀림")
+            }else{
+                starttext = new Date(starttext);
+                endtext = new Date(endtext);
+                if(starttext>endtext){
+                    alert("시작날짜가 종료날짜보다 늦습니다.");
+                }                
+            }
+        }
+        function checkAll(e){
+            const checkboxes = document.getElementsByName("check");
+            checkboxes.forEach((checkbox)=>{
+                checkbox.checked = e.checked;
+            })
+        }
+    </script>
+</body>
+</html>
