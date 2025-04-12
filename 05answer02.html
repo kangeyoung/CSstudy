@@ -40,6 +40,7 @@
 </body>
 <script>
     var menu = ['자장면', '볶음밥', '탕수육'];
+    var number = 0;    
     window.onload = function(){        
         msg = document.getElementById("info");
         for (i = 0; i<menu.length;i++){
@@ -63,9 +64,10 @@
                 const newCell0 = newRow.insertCell(0);
                 const newCell1 = newRow.insertCell(1);
                 const newCell2 = newRow.insertCell(2);
-                newCell0.innerHTML = "<input type = checkbox name = check>";
-                newCell1.innerText = textM;
-                newCell2.innerText = textN;
+                newCell0.innerHTML = "<input type = checkbox name = check id ="+number+" >";
+                newCell1.innerHTML = "<label for = "+number+">"+textM+"</label>";
+                newCell2.innerHTML = "<label for = "+number+">"+textN+"</label>";
+                number++;
                }
                 break;
             }else if(i == menu.length-1){
@@ -80,14 +82,14 @@
             checkbox.checked = e.checked;
         })
     }
-    function del(){
-        const checked = document.getElementsByName("check");    
+    function del(){        
         const table = document.getElementById("orderlist");    
-        for(i = 0; i<checked.length;i++){
-            if(checked[i].checked){
-               table.deleteRow(i+1); 
-               console.log(i);                    
-            }                
+        for(i = 1; i<table.rows.length;i++){
+            chkbox = table.rows[i].cells[0].childNodes[0].checked;
+            if(chkbox){
+                table.deleteRow(i);
+                i--;
+            }
         }
     }
     
