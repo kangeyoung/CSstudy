@@ -64,7 +64,7 @@
                 const newCell0 = newRow.insertCell(0);
                 const newCell1 = newRow.insertCell(1);
                 const newCell2 = newRow.insertCell(2);
-                newCell0.innerHTML = "<input type = checkbox name = check id ="+number+" >";
+                newCell0.innerHTML = "<input type = checkbox name = check id ="+number+" onchange = notall()>";
                 newCell1.innerHTML = "<label for = "+number+">"+textM+"</label>";
                 newCell2.innerHTML = "<label for = "+number+">"+textN+"</label>";
                 number++;
@@ -91,6 +91,18 @@
                 i--;
             }
         }
+    }
+    function notall(){
+        const allcheck = document.getElementById("selectall");
+        const checktrues = document.querySelectorAll("input[name='check']:checked");
+        const checkboxes = document.getElementsByName("check");
+        if(checktrues.length === checkboxes.length){
+            allcheck.checked = true;
+        }else{
+            allcheck.checked = false;
+        }
+        
+        
     }
     
 </script>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"> <!--문서를 번역할 때 사용하는 인코딩 방식 
+                            한글은 euckr과 utf-8방식을 사용한다. 
+                            euckr은 한국어버전 운영체제에서만 사용한다. 한국어 전용
+                            utf-8은 전세계적으로 사용할 수 있는 한국어 인코딩방식이다.
+                            그래서 요즘은 거의 utf-8로 인코딩을 설정한다. 매우 중요!-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>오늘의 메뉴</h1>
+    <form action = "" method ="post">
+        <input type = "button" value = "버튼1" onclick = "event1()">
+        <input type = "button" value = "버튼2" id = "btn2" >
+        <input type = "button" value = "버튼3" id = "btn3" >
+        <input type = "text" id = "info">
+        <span id = "info2">* 즐거운 시간 되세요</span>        
+    </form>
+    
+</body>
+</html>
+<!--js에서 html tag를 선택하여 동적데이터 컨트롤-->
+<!--시나리오 1: 버튼을 클릭하면 id가 info2로 지정된 tag의 text를 읽어와서 id가 info인 tag의 값으로 -->
+<script>
+    function event1(){
+        alert(121);
+        const info2 = document.getElementById("info2").innerHTML;
+        console.log(info2);
+        let info = document.getElementById("info");
+        info.value = info2;
+    } // 1. tag에서 직접 함수를 입력하는 방법 
+    function abc(){
+        alert("abc함수")
+    }
+    window.onload = function(){
+        document.getElementById("btn2").addEventListener('click',()=>{
+            alert("버튼2를 클릭")
+            event1()
+        }) // 람다식(java, python도 있음)은 익명함수라고 이해한다. 함수 이름이 없다. (매개변수) => {...함수구현}
+
+        document.querySelector("#btn3").addEventListener('click',abc); 
+        // abc 콜백함수: 어떤 함수가 call되었을 때 그 안에 콜백함수가 있으면 콜백함수가 call된다.
+    } // 2. html문서가 로딩될 때 onload라는 메서드가 자동으로 실행(많이 사용함)
+    // 3. jquery를 이용해서 등록하는 방법
+</script>
