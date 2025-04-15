@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    table {
+        width: 400px;
+        border: 1px solid;
+    }
+
+    tr,
+    th {
+        border: 1px solid;
+        text-align: center;
+    }
+
+    #abcd {
+        width: 400px;
+    }
+
+    #by{
+        background-color: yellow;
+    }
+</style>
+
+<body>
+    <h2>휴먼 검색어 포털 시스템</h2>
+    <span>문제 1 <br>검색어를 입력하세요 [지사사항 있음]</span>
+    <input type="text">
+    <input type="button" value="검색"><br>
+    <span>검색어 리스트</span><br>
+    <table>
+        <tr>
+            <td width=100px>1</td>
+            <td>검색어</td>
+            <td><input type="button" value="삭제"></td>
+        </tr>
+    </table>
+    <table >
+        <tr>
+            <td align="left">
+                <input type="checkbox"> 모두 선택
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    <hr>
+    <span> 문제 2</span><br>
+    <span> 검색어를 입력하고 검색 버튼을 누르면 검색어를 찾아서 배경을 노란색으로 변경하시오. </span><br><br>
+    <div id="abcd">
+        <span id="abc">
+            한화 타선은 장단 17안타를 몰아쳐 키움 마운드를 뒤흔들었다. 채은성(5타수 3안타 1타점)과 에스테반 플로리얼(5타수 3안타 1득점), 김태연(5타수 4안타 2득점)이 안타 3개씩을 쳤고,
+            이도윤은 3타수 1안타 3타점으로 거들었다.
+
+            경기 초반 부터 흔들린 키움 선발 조영건은 불안한 투구 내용을 남기는 등 1⅓이닝 2피안타 3사사구 2실점을 기록, 시즌 첫 패전을 당했다.
+        </span>
+        <br>
+        찾을 문자열 <input type="text" id="sword"> <input type="button" value="검색">
+
+</body>
+
+</html>
+<script>
+    let number = 0;
+    let string = document.querySelector('span[id = abc]').innerHTML;
+    window.onload = function () {
+        document.querySelectorAll('input[type = button]')[0].addEventListener('click', () => {
+            const search = document.querySelectorAll('input[type = text]')[0];
+            console.log(search);
+            if(search.value ==""){
+                alert("빈칸");
+                return;
+            }
+            const table = document.querySelectorAll('table')[0];
+            const tr = table.insertRow();
+            const td0 = tr.insertCell(0);
+            const td1 = tr.insertCell(1);
+            const td2 = tr.insertCell(2);            
+            td0.innerHTML = "<input type = checkbox name = check id =" + number + " onchange = notall()>";
+            td1.innerHTML = "<label for = " + number + ">" + search.value + "</label>";
+            td2.innerText = "";
+            number++;
+            search.value = "";
+            td1.className = "names";
+            console.log(td1.className);
+        })
+        document.querySelectorAll('table')[1].rows[0].cells[0].childNodes[1].addEventListener('click', () => {                      
+            const all = event.target;
+            console.log(event.target);
+            const checkboxes = document.getElementsByName("check");
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = all.checked;
+            })
+        })
+
+        
+        document.querySelector('input[value = 삭제]').addEventListener('click',()=>{
+            const table = document.querySelectorAll('table')[0];
+            for(i = table.rows.length-1 ; i>0 ;i--){
+                let chkbox = table.rows[i].cells[0].childNodes[0].checked;
+                console.log(chkbox);
+                if(chkbox){
+                    table.deleteRow(i);
+                    document.querySelectorAll('table')[1].rows[0].cells[0].childNodes[1].checked = false;
+                }
+            }
+        })
+        document.querySelectorAll('input[type = text]')[0].addEventListener('change',()=>{
+            const search = event.target;
+            const list = document.querySelectorAll('label');            
+            list.forEach((name)=>{                
+                if(name.innerHTML == search.value){
+                    alert("중복");
+                    search.value = "";
+                    return;
+                }
+            })
+        })
+        document.querySelectorAll('input[type = button]')[2].addEventListener('click',()=>{                    
+            const s = document.getElementById('sword');
+            let str = document.querySelector('span[id = abc]');
+            str.innerHTML = string;
+            console.log(str.innerHTML.includes(s.value))
+            if(str.innerHTML.includes(s.value)){
+               repla = s.value;
+               newstr = str.innerHTML.replaceAll(repla, "<span id = by>"+repla+"</span>");
+               str.innerHTML = newstr;
+            }
+        })
+
+    }
+
+    function notall() {
+        const allcheck = document.querySelectorAll('table')[1].rows[0].cells[0].childNodes[1];
+        const checktrues = document.querySelectorAll("input[name='check']:checked");
+        const checkboxes = document.getElementsByName("check");
+        if (checktrues.length === checkboxes.length) {
+            allcheck.checked = true;
+        } else {
+            allcheck.checked = false;
+        }
+
+
+    }
+
+</script>
+<!-- 지시사항
+
+** 화면 설계 미니프로젝트 결과물을 모두 올려 주세요.. 4월9일 작업
+
+ 1. 검색버튼을 누르면 표의 검색어 열에 추가 되도록한다. 단, 모두 선택 메뉴는 항상 맨 아래에 위치 시킨다.
+ 2. 모두 선택을 클릭하면 검색어가 모두 선택되게 한다.
+ 3. 체크한 검색어가 모두 삭제 되도록 한다.
+ 4. 검색어를 입력하면 onchange를 사용하여 중복되면 이미 검색한 검색어입니다. 라고 경고창을
+    띄우고 검색어 입력 부분을 빈칸으로 만든다. 
+ ** 모든 tag의 이벤트 등록은 리스너와 람다식을 사용하시오. 
+
+ ** -->
