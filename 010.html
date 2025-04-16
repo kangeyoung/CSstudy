@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--화면 전체 1시간 1번 5분 2번 10분 3번 10분 4번 30분 5번 1시간-->
+    <!--화면 전체 13:43 시작 14:43 종료-->
+    <!--1번 14:50 시작 14:57 종료-->
+    <!--2번 14:57 시작 15:12 종료-->
+    <!--3번 15:12 시작 15:45 종료-->
+    <!--4번 15:24 시작 15:27 종료-->
+    <!--5번 15:30 시작-->
+</head>
+<style>    
+    .all{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+    h2{
+        background-color: cornflowerblue;
+        color: white;
+        width: 850px;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+    }
+    #savetable{
+        height: 130px;
+        border-spacing: 5px;
+    }
+    #savetable td[id = a]{
+        background-color: cornflowerblue;
+        color: white;
+        text-align: center;
+        width: 60px;
+        height: 20px;
+        
+    }
+    #savetable input[type= text], #savetable select { 
+        background-color: cornflowerblue;
+        width: 200px;
+        height: 30px;
+        border: transparent;
+        color: white;
+    }
+    #savetable option{        
+        color: white;
+    }
+    #savetable input[type= button]{
+        background-color: cornflowerblue;
+        color: white;
+        width: 100px;
+        height: 30px;
+        border: transparent;
+        font-size: 17px;
+    }
+    #printtable {
+        width: 600px;
+    }
+    #printtable th{
+        background-color: cornflowerblue;
+        color: white;
+        /* padding: 0px, 20px; */        
+    }
+    #printtable td{
+        height: 30px;
+        border: transparent;
+        
+    }
+    #printtable input[type = button]{
+        background-color: cornflowerblue;
+        color: white;
+        border: transparent;
+        border-radius: 5px;        
+    }
+    input {
+        accent-color: auto;
+        display: block;
+    }   
+    #printtable input[type = checkbox]{
+        accent-color: cornflowerblue;  
+        
+    }
+    #printtable tr.colored:nth-child(even){
+        background-color:#bcc1ca;
+        color:#000000;
+    }
+
+    #printtable tr.colored:nth-child(odd){
+        background-color: #e5e7ea;
+        color:black;
+    }
+
+</style>
+<body>
+    <div class = "all">
+        <h2>휴먼 전공 용어 공부</h2>
+    </div>
+    <div class = "all">
+        <table id = "savetable">
+            <form>
+                <tr>
+                    <td id = "a">단어</td>
+                    <td colspan="2">
+                        <input type = text id = word>
+                    </td>            
+                </tr>
+                <tr>
+                    <td id = "a">구분</td>
+                    <td colspan="2">
+                        <select id = tp>
+                            <option value = "none" selected></option>
+                            <option value = "db">db</option>
+                            <option value = "java" >java</option>
+                            <option value = "html">html</option>
+                            <option value = "css">css</option>
+                            <option value = "js">js</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td id = "a">설명</td>
+                    <td colspan="2" rowspan="2">
+                        <input type = text id = des style = "height: 60px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td align = "right">
+                        <input type = button id = save value = 저장>
+                    </td>
+                </tr>            
+            </form>
+        </table>
+        <table id = "printtable">
+            <tr>
+                <th style="width: 60px;" align="center">
+                    <input type = button id = selectAll value = 전체선택>
+                </th>
+                <th style="width: 60px;">순번</th>
+                <th>구분</th>
+                <th>단어</th>
+                <th>설명</th>
+            </tr>
+            <tr class = "colored">
+                <td align = "center"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class = "colored">
+                <td align = "center"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class = "colored">
+                <td align = "center"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class = "colored">
+                <td align = "center"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class = "colored">
+                <td align = "center"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr class = "colored">
+                <td align="center">
+                    <input type = button id = del value = 삭제>
+                </td>
+                <td colspan = "4" align="center" id = pages>
+
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    let list = new Array();
+    list.push(["","","",""]);    
+    let number = 1;
+    window.onload = ()=>{
+        document.getElementById('save').addEventListener('click',()=>{
+            let word = document.getElementById('word');
+            let tp = document.getElementById('tp');
+            let des = document.getElementById('des');
+            if(word.value == "" || tp.value == "" || des.value == ""){
+                alert("빈칸");
+                return;
+            }            
+            let str = des.value;
+            if(str.length>6){
+                str = str.substring(0,5); 
+            }
+            let num = list.length
+            list.push([num ,tp.value, word.value, str]);
+            onloadTable(0);            
+            // tp.value = "";
+            // word.value = "";
+            // des.value = "";
+            number++;            
+        })
+        document.getElementById('selectAll').addEventListener('click',()=>{            
+            const checkboxes = document.getElementsByName("check");
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+            })
+        })
+        document.getElementById('del').addEventListener('click',()=>{
+            const table = document.getElementById('printtable');
+            for(let i = 1; i<6 ;i++){
+                let chkbox = table.rows[i].cells[0].childNodes[0];
+                console.log(chkbox);
+                if(chkbox == undefined){
+                    continue;
+                }else if(chkbox.checked){                   
+                    for(let j = 0; j<5;j++){
+                        table.rows[i].cells[j].innerHTML = "";
+                    }                                       
+                }
+            }
+            onloadTable(1);
+        })   
+
+    }
+    function onloadTable(n){
+        let table = document.getElementById('printtable');
+        for(let i = 1; i<6 && i<list.length ; i++){
+            table.rows[i].cells[0].innerHTML = '<input type = checkbox>';
+            table.rows[i].cells[1].innerHTML = list[i+5*n][0];
+            table.rows[i].cells[2].innerHTML =
+             list[i+5*n][1];
+            table.rows[i].cells[3].innerHTML = list[i+5*n][2];
+            table.rows[i].cells[4].innerHTML = list[i+5*n][3];
+        }
+        table.rows[6].cells[1].innerHTML = makePage(list.length);
+    }
+    function makePage(m){
+        let totalPage = m-1;
+
+    }
+
+    
+</script>
