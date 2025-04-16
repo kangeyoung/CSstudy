@@ -193,13 +193,12 @@
             </tr>
             
         </table>
-    </div>
+    </div>   
 </body>
 </html>
 <script>
     let list = new Array();
-    list.push(["","","",""]);    
-    let number = 1;
+    list.unshift(["","",""])            
     window.onload = ()=>{
         document.getElementById('save').addEventListener('click',()=>{
             let word = document.getElementById('word');
@@ -214,12 +213,12 @@
                 str = str.substring(0,5); 
             }
             let num = list.length
-            list.push([num ,tp.value, word.value, str]);
+            // list.push([num ,tp.value, word.value, str]); 배열 맨 뒤에 값 넣기
+            list.unshift([tp.value,word.value,str]); // 배열 맨 앞에 값 넣기
             onloadTable(0);            
             // tp.value = "";
             // word.value = "";
-            // des.value = "";
-            number++;            
+            // des.value = "";                       
         })
         document.getElementById('selectAll').addEventListener('click',()=>{            
             const checkboxes = document.getElementsByName("check");
@@ -235,30 +234,45 @@
                 if(chkbox == undefined){
                     continue;
                 }else if(chkbox.checked){                   
+                    let delnum =table.rows[i].cells[1].childNodes[0];
+                    list.splice((list.length-delnum),1);
                     for(let j = 0; j<5;j++){
                         table.rows[i].cells[j].innerHTML = "";
                     }                                       
                 }
             }
-            onloadTable(1);
+            onloadTable(0);
         })   
 
     }
     function onloadTable(n){
+        console.log(n);
         let table = document.getElementById('printtable');
-        for(let i = 1; i<6 && i<list.length ; i++){
-            table.rows[i].cells[0].innerHTML = '<input type = checkbox>';
-            table.rows[i].cells[1].innerHTML = list[i+5*n][0];
-            table.rows[i].cells[2].innerHTML =
-             list[i+5*n][1];
-            table.rows[i].cells[3].innerHTML = list[i+5*n][2];
-            table.rows[i].cells[4].innerHTML = list[i+5*n][3];
+        let num = list.length-(5*n)
+        for(let i = 1; i<6; i++){
+            for(let j = 0; j<5;j++){
+                    table.rows[i].cells[j].innerHTML = "";
+            }   
+        }        
+        for(let i = 1; i<6 && i<num ; i++){
+            table.rows[i].cells[0].innerHTML = '<input type = checkbox name = check>';
+            table.rows[i].cells[1].innerHTML = i+5*n;
+            table.rows[i].cells[2].innerHTML = list[i+5*n-1][0];
+            table.rows[i].cells[3].innerHTML = list[i+5*n-1][1];
+            table.rows[i].cells[4].innerHTML = list[i+5*n-1][2];
         }
         table.rows[6].cells[1].innerHTML = makePage(list.length);
     }
     function makePage(m){
-        let totalPage = m-1;
-
+        let totalPage = m-2;
+        let page = Math.floor(totalPage/5);
+        let returnHTML = "";
+        console.log("t "+ totalPage);
+        console.log("p "+page);
+        for(let i = 0; i<=page; i++){
+            returnHTML += `<span id = page onclick = onloadTable(${i})>[${i+1}]</span>`
+        }
+        return returnHTML;
     }
 
     
