@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script src = "credentials.json" type = "text/javascript"></script>
+<script src = "user.js" type = "text/javascript"></script>
+<style>
+    .all {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    #header {
+        /* background-color: #75c170; */
+        color: black;
+        width: 25%;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+    }
+
+    .allnew {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 200px;
+        width: 100%;
+    }
+
+    .search,
+    .login {
+        border: 1px dotted;
+        border-radius: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+
+    input[type=text] {
+        border: transparent;
+    }
+
+    input[type=password] {
+        border: transparent;
+    }
+
+    /* 여기부터 회원가입창!@!@*/
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* 반투명 배경 */
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: white;
+        width: 450px;
+        /* 첫 구현보다 약간 넓게 */
+        min-height: 650px;
+        /* 세로 크기 크게 증가 */
+        padding: 30px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .birthdate {
+        display: flex;
+        gap: 10px;
+    }
+
+    #result {
+        margin-top: 20px;
+    }
+
+    .modal-content h3 {
+        margin: 0 0 30px;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .modal-content form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        /* 입력 필드 간격 넓힘 */
+        flex-grow: 1;
+    }
+
+    .modal-content input,
+    .modal-content select {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .modal-content button {
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .check-duplicate {
+        border: 1px black;
+        border-width: 3px;
+    }
+
+    .birthdate {
+        display: flex;
+        gap: 10px;
+    }
+
+    .birthdate select {
+        flex: 1;
+    }
+
+    .modal-content button {
+        border: 1px solid rgb(199, 189, 189);
+    }
+</style>
+
+<body>
+    <div class="all">
+        <h2 id="header" onclick='hidden1()'>메뉴1</h2>
+        <h2 id="header" onclick='hidden2()'>메뉴2</h2>
+        <h2 id="header" onclick='hidden3()'>메뉴3</h2>
+        <h2 id="header" onclick='hidden4()'><img src="./img/목록.png" width="20px">전체메뉴</h2>
+    </div>
+    <div class="allnew">
+        <div class="search" style="height: 50px;">
+            <input type=text id=search onchange='searchlist()' placeholder="검색어 입력">
+            <input type=button id=searchbtn onclick='search()' value="검색">
+        </div>
+        <form>
+            <div class="login" style="flex-direction: column; height: 500px; width: 500px">
+                <input type=text id="id11" placeholder="id 입력" required><br>
+                <input type=password id="password" placeholder="비밀번호 입력" required> <br>
+                <div>
+                    <button type=submit id="lo" onclick="ll()">로그인</button>
+                    <input type=button id=signin value="회원가입">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <h3>회원가입</h3>
+            <form id="signup-form">
+                <div>
+                    <input type="text" id="signup-username" placeholder="아이디" required>
+                    <button type="button" id="check-duplicate" onclick='dupId()'>중복 확인</button>
+                </div>
+                <input type="password" id="signup-password" placeholder="비밀번호" required>
+                <input type="text" id="signup-name" placeholder="이름" required>
+                <div class="birthdate">
+                    <select id="birth-year" required>
+                        <option value="">년</option>
+                    </select>
+                    <select id="birth-month" required>
+                        <option value="">월</option>
+                    </select>
+                    <select id="birth-day" required>
+                        <option value="">일</option>
+                    </select>
+                </div>
+                <button type="submit" onclick='submitU()'>가입</button>
+                <button type="button" id="modal-close">취소</button>
+            </form>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    signUpFlag = false;
+    let list;
+    function submitU() {
+        if (!signUpFlag) {
+            alert('id 중복검사 필요');
+            return;
+        }
+        let id = document.getElementById("signup-username").value;
+        let pass = document.getElementById("signup-password").value;
+        let name = document.getElementById("signup-name").value;
+        let birthday = document.getElementById("birth-year").value + "-"
+            + document.getElementById("birth-month").value + "-"
+            + document.getElementById("birth-day").value;
+        let user = new User(id,pass,name,birthday);
+
+
+    }
+
+    async function dupId() {
+        const datab = await fetch('./credentials.json');        
+        const obj = await datab.json();            
+        const list = obj.Users;        
+        console.log(list[0].id);
+        console.log(list[0].pass);
+        let data = list;
+        let id = document.getElementById("signup-username")
+        if (id.value == "") {
+            alert('빈칸');
+            return;
+        }
+        console.log(id.value);
+        console.log(data.length);
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id == id.value) {
+                alert('id 중복불가')
+                id.value = "";
+                return;
+            }
+        }
+        signUpFlag = true;
+        alert('id 중복검사 완료');
+        return;
+    }
+
+    async function ll(){
+        try{       
+        const datab = await fetch('./credentials.json');               
+        const obj = await datab.json();            
+        const list = obj.Users;        
+        console.log(list[0].id);
+        console.log(list[0].pass);
+        let data = list;              
+        let id = document.getElementById('id11');
+        let pass = document.getElementById('password');
+        if(id.value == ""||pass.value ==""){
+            alert("빈칸");
+            return;
+        }
+        let idValue = id.value;
+        let passValue = pass.value;
+        id.value = "";
+        pass.value = "";        
+        for (let i = 0; i < list.length; i++) {
+            if (data[i].id == idValue) {
+                if (data[i].pass == passValue) {
+                    alert('로그인 성공');
+                    return;
+                }
+            }
+        }
+        alert('로그인 실패');
+        }catch(error){
+            alert(error);
+        }
+    }
+  
+    async function load() {
+        const data = await fetch('credentials.json');
+        alert(1);
+        const obj = await data.json();    
+        alert(2);
+        const list = obj.Users;
+        alert(3);
+        console.log(list[0].id);
+        console.log(list[0].pass);
+        return list;
+    }
+
+
+
+    function birth() {
+        const yearSelect = document.querySelector('#birth-year');
+        const monthSelect = document.querySelector('#birth-month');
+        const daySelect = document.querySelector('#birth-day');
+
+        // 년 (1960-2010)
+        for (let y = 2010; y >= 1960; y--) {
+            const option = document.createElement('option');
+            option.value = y;
+            option.text = y;
+            yearSelect.appendChild(option);
+        }
+
+        // 월 (1-12)
+        for (let m = 1; m <= 12; m++) {
+            const option = document.createElement('option');
+            option.value = m.toString().padStart(2, '0');
+            option.text = m;
+            monthSelect.appendChild(option);
+        }
+
+        // 일 (1-31, 동적 조정)
+        function updateDays() {
+            daySelect.innerHTML = '<option value="">일</option>';
+            const year = parseInt(yearSelect.value);
+            const month = parseInt(monthSelect.value);
+            if (!year || !month) return;
+
+            const daysInMonth = new Date(year, month, 0).getDate();
+            for (let d = 1; d <= daysInMonth; d++) {
+                const option = document.createElement('option');
+                option.value = d.toString().padStart(2, '0');
+                option.text = d;
+                daySelect.appendChild(option);
+            }
+        }
+
+        yearSelect.addEventListener('change', updateDays);
+        monthSelect.addEventListener('change', updateDays);
+    }
+    birth();
+
+    const modal = document.querySelector('#signup-modal');
+    document.querySelector('#signin').addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+    document.querySelector('#modal-close').addEventListener('click', () => {
+        modal.style.display = 'none';
+        signUpFlag = false;
+        document.querySelector('#signup-form').reset();
+    });
+    function hidden1() {
+
+    }
+    function hidden2() {
+
+    }
+    function hidden3() {
+
+    }
+    function hidden4() {
+
+    }
+    
+</script>
