@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .all{
+        display: flex;
+        justify-content: center;
+        gap: 10px;        
+    }
+    #header{
+        background-color: cornflowerblue;
+        color: white;
+        width: 850px;
+        text-align: center;
+        padding: 20px;
+        font-size: 20px;
+    }
+    #subheader{
+        background-color: cornflowerblue;
+        color: white;
+        width: 300px;
+        padding: 20px;
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+    #dest, #checkdest{
+        padding: 30px 0px;
+        padding-left: 100px;        
+        border: 1px solid;
+        border-color: cornflowerblue;
+        margin-top: 0px;
+        height: 180px;
+    }
+    .btns{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0px;
+    }
+    .btns input[type = button]{
+        background-color: cornflowerblue;
+        color: white;
+        border: transparent;
+        width: 50px;
+        height: 30px;
+        font-size: 20px;
+        padding: 5px;        
+    }
+</style>
+<body>
+    <div class = "all">
+        <h2 id = "header">휴먼 여행사</h2>
+    </div>
+    <div class = "all">
+        <div class = "tt">
+            <h2 id = "subheader">여행지</h2>
+            <p id = "dest">
+                
+            </p>
+        </div>
+        <div class = "btns">
+            <input type = button id = input value = '>>' onclick = input()><br>
+            <input type = button id = output value = '<<' onclick = output()>
+        </div>
+        <div class = "tt">
+            <h2 id = "subheader">선택한 여행지</h2>
+            <p id = "checkdest">
+
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
+<script>
+    let destList = ["수원","원주","동해시","부산","평창","영월"];
+    let checkList = [];
+    window.onload = ()=>{        
+        onloaddest();
+    }
+    function input(){        
+        let check = document.querySelectorAll('#dest input[type = checkbox]:checked');
+        if(check.length == 0){
+            alert('선택 안함')
+            return;
+        }
+        console.log(check);        
+        for(let i = 0; i<check.length; i++){
+            let str = document.querySelectorAll('#dest label')[check[i].id-1].innerHTML;            
+            if(check[i].checked){                
+                checkList.push(str);
+                destList.splice(destList.indexOf(str),1);
+            }
+        }                          
+        onloadcheckdest();
+        onloaddest();        
+    }
+    function output(){
+        let check = document.querySelectorAll('#checkdest input[type = checkbox]:checked');
+        if(check.length == 0){
+            alert('선택 안함')
+            return;
+        }        
+        for(let i = 0; i<check.length; i++){
+            let str = document.querySelectorAll('#checkdest label')[check[i].id-10].innerHTML;            
+            if(check[i].checked){
+                console.log(str+"성공");
+                destList.push(str);
+                checkList.splice(checkList.indexOf(str),1);
+            }
+        }                           
+        onloadcheckdest();
+        onloaddest();       
+
+    }
+    function onloaddest(){
+        let listtext = document.getElementById("dest");
+        listtext.innerHTML = "";
+        let number = 1;
+        destList.forEach((dest)=>{
+            listtext.innerHTML += `<input type = checkbox id = ${number}><label for = ${number}>${dest}</label><br>`
+            number++;
+        })
+    }
+    function onloadcheckdest(){
+        let checktext = document.getElementById("checkdest");
+        checktext.innerHTML = "";
+        let number = 10;
+        checkList.forEach((checkdest)=>{
+            checktext.innerHTML += `<input type = checkbox id = ${number}><label for = ${number}>${checkdest}</label><br>`
+            number++;
+        }) 
+    }
+    
+    
+</script>

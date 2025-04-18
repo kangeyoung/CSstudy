@@ -10,7 +10,7 @@
     <!--2번 14:57 시작 15:12 종료-->
     <!--3번 15:12 시작 15:45 종료-->
     <!--4번 15:24 시작 15:27 종료-->
-    <!--5번 15:30 시작-->
+    <!--5번 15:30 시작 6시간 걸림-->
 </head>
 <style>    
     .all{
@@ -198,7 +198,7 @@
 </html>
 <script>
     let list = new Array();
-    list.unshift(["","",""])            
+    list.unshift(["","","",""])            
     window.onload = ()=>{
         document.getElementById('save').addEventListener('click',()=>{
             let word = document.getElementById('word');
@@ -209,12 +209,14 @@
                 return;
             }            
             let str = des.value;
-            if(str.length>6){
+            if(str.length>5){
                 str = str.substring(0,5); 
             }
-            let num = list.length
+            
             // list.push([num ,tp.value, word.value, str]); 배열 맨 뒤에 값 넣기
-            list.unshift([tp.value,word.value,str]); // 배열 맨 앞에 값 넣기
+            // list.unshift([tp.value,word.value,str,num]); // 배열 맨 앞에 값 넣기
+            let wordC = new Word(word.value, tp.value, str);
+            list.unshift(wordC);
             onloadTable(0);            
             // tp.value = "";
             // word.value = "";
@@ -228,14 +230,16 @@
         })
         document.getElementById('del').addEventListener('click',()=>{
             const table = document.getElementById('printtable');
-            for(let i = 1; i<6 ;i++){
-                let chkbox = table.rows[i].cells[0].childNodes[0];
-                console.log(chkbox);
+            for(let i = 6; i>0 ;i--){
+                let chkbox = table.rows[i].cells[0].childNodes[0];                
                 if(chkbox == undefined){
                     continue;
                 }else if(chkbox.checked){                   
-                    let delnum =table.rows[i].cells[1].childNodes[0];
-                    list.splice((list.length-delnum),1);
+                    let delnum =table.rows[i].cells[1].innerHTML;                    
+                    console.log(delnum);
+                    delnum--;
+                    console.log(list[delnum]);                     
+                    list.splice((delnum),1);
                     for(let j = 0; j<5;j++){
                         table.rows[i].cells[j].innerHTML = "";
                     }                                       
@@ -257,9 +261,9 @@
         for(let i = 1; i<6 && i<num ; i++){
             table.rows[i].cells[0].innerHTML = '<input type = checkbox name = check>';
             table.rows[i].cells[1].innerHTML = i+5*n;
-            table.rows[i].cells[2].innerHTML = list[i+5*n-1][0];
-            table.rows[i].cells[3].innerHTML = list[i+5*n-1][1];
-            table.rows[i].cells[4].innerHTML = list[i+5*n-1][2];
+            table.rows[i].cells[2].innerHTML = list[i+5*n-1].tp;
+            table.rows[i].cells[3].innerHTML = list[i+5*n-1].word;
+            table.rows[i].cells[4].innerHTML = list[i+5*n-1].str;
         }
         table.rows[6].cells[1].innerHTML = makePage(list.length);
     }
@@ -267,12 +271,20 @@
         let totalPage = m-2;
         let page = Math.floor(totalPage/5);
         let returnHTML = "";
-        console.log("t "+ totalPage);
-        console.log("p "+page);
+        // console.log("t "+ totalPage);
+        // console.log("p "+page);
         for(let i = 0; i<=page; i++){
             returnHTML += `<span id = page onclick = onloadTable(${i})>[${i+1}]</span>`
         }
         return returnHTML;
+    }
+
+    class Word{
+       constructor(a,b,c){
+         this.word = a;
+         this.tp = b;
+         this.str = c;
+       } 
     }
 
     
